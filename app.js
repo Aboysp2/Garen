@@ -1,3 +1,4 @@
+// Sample Data
 const sampleProducts = [
   {
     id: 1,
@@ -20,19 +21,24 @@ const sampleProducts = [
       { store: "Panda", price: 2249, url: "https://panda.com.sa" },
       { store: "Carrefour", price: 2149, url: "https://carrefourksar.com" }
     ]
-  },
-  {
-    id: 3,
-    title: "Nescafe Gold Instant Coffee 200g",
-    image: "https://m.media-amazon.com/images/I/61Kq-S7iSUL._AC_SL1000_.jpg",
-    prices: [
-      { store: "Panda", price: 34.95, url: "https://panda.com.sa" },
-      { store: "Carrefour", price: 32.50, url: "https://carrefourksar.com" },
-      { store: "Amazon.sa", price: 36.00, url: "https://amazon.sa" },
-      { store: "Noon", price: 35.00, url: "https://noon.com" }
-    ]
   }
 ];
+
+// Helper: Escape HTML (XSS Prevention)
+function escapeHTML(str) {
+  return str.replace(/[&<>'"]/g, 
+    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+  );
+}
+
+// Helper: Debounce Function for Performance
+function debounce(func, delay = 300) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
 
 function renderProducts(products) {
   const grid = document.getElementById('productsGrid');
@@ -40,53 +46,59 @@ function renderProducts(products) {
   const selectedStores = Array.from(document.querySelectorAll('#storeFilters input:checked')).map(cb => cb.value);
 
   grid.innerHTML = '';
-  countEl.textContent = `${products.length} products found`;
+  
+  const filteredProducts = products.filter(product => {
+    return product.prices.some(p => selectedStores.includes(p.store));
+  });
 
-  products.forEach(product => {
-    // Filter prices based on active store checkboxes
-    const filteredPrices = product.prices.filter(p => selectedStores.includes(p.store));
+  countEl.textContent = `${filteredProducts.length} منتجات متوفرة`;
 
-    if (filteredPrices.length === 0) return;
+  if (filteredProducts.length === 0) {
+    grid.innerHTML = `<div class="no-results">لا توجد نتائج تطابق الفلاتر المحددة</div>`;
+    return;
+  }
 
-    // Find lowest price among available stores
-    const minPrice = Math.min(...filteredPrices.map(p => p.price));
+  filteredProducts.forEach(product => {
+    const validPrices = product.prices.filter(p => selectedStores.includes(p.store));
+    const minPrice = Math.min(...validPrices.map(p => p.price));
 
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    const priceListHtml = filteredPrices.map(p => {
+    const priceListHtml = validPrices.map(p => {
       const isBest = p.price === minPrice;
       return `
         <li class="price-item ${isBest ? 'best-price' : ''}">
-          <span>${p.store}</span>
-          <span>${p.price.toFixed(2)} SAR ${isBest ? '(Lowest)' : ''}</span>
+          <span>${escapeHTML(p.store)}</span>
+          <span>${p.price.toFixed(2)} ر.س ${isBest ? '⚡ (الأرخص)' : ''}</span>
         </li>
       `;
     }).join('');
 
     card.innerHTML = `
-      <img src="${product.image}" alt="${product.title}" />
-      <h4>${product.title}</h4>
+      <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.title)}" loading="lazy" />
+      <h4>${escapeHTML(product.title)}</h4>
       <ul class="price-list">${priceListHtml}</ul>
-      <a href="${filteredPrices[0].url}" target="_blank" class="buy-btn">Compare & Shop</a>
+      <a href="${escapeHTML(validPrices[0].url)}" target="_blank" rel="noopener noreferrer" class="buy-btn">الانتقال للمتجر والشراء</a>
     `;
 
     grid.appendChild(card);
   });
 }
 
-// Initial Render
+// Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts(sampleProducts);
 
-  // Search Listener
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
+  const searchInput = document.getElementById('searchInput');
+  
+  // Applied Debounce to Search Input
+  searchInput.addEventListener('input', debounce((e) => {
+    const query = e.target.value.trim().toLowerCase();
     const filtered = sampleProducts.filter(p => p.title.toLowerCase().includes(query));
     renderProducts(filtered);
-  });
+  }, 300));
 
-  // Checkbox Filters Listener
   document.querySelectorAll('#storeFilters input').forEach(checkbox => {
     checkbox.addEventListener('change', () => renderProducts(sampleProducts));
   });
