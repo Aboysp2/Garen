@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>قارن | Garen - Compare Prices in Saudi Arabia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2563EB" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">
+      <h1>قارن <span>Garen</span></h1>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="ابحث عن منتج (مثال: iPhone 15, TV, Coffee)..." />
+      <button id="searchBtn">بحث</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside class="filters">
+      <h3>المتاجر المدعومة (Stores)</h3>
+      <ul id="storeFilters">
+        <li><label><input type="checkbox" value="Amazon.sa" checked /> Amazon.sa</label></li>
+        <li><label><input type="checkbox" value="Noon" checked /> Noon</label></li>
+        <li><label><input type="checkbox" value="Jarir" checked /> Jarir Bookstore</label></li>
+        <li><label><input type="checkbox" value="Extra" checked /> Extra Stores</label></li>
+        <li><label><input type="checkbox" value="Panda" checked /> Hyper Panda</label></li>
+        <li><label><input type="checkbox" value="Carrefour" checked /> Carrefour KSA</label></li>
+      </ul>
+    </aside>
+
+    <section class="results-section">
+      <div class="section-header">
+        <h2>نتائج المقارنة (Comparison Results)</h2>
+        <span id="resultsCount">6 منتجات متوفرة</span>
+      </div>
+      <div id="productsGrid" class="products-grid"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+        .then(() => console.log('PWA Service Worker Registered'))
+        .catch((err) => console.error('SW Registration Failed:', err));
+    }
+  </script>
+</body>
+</html>
