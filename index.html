@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>قارن | Garen - Compare Prices in Saudi Arabia</title>
+  <title>قارن | Garen - Price Comparison KSA</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#2563EB" />
@@ -16,7 +16,7 @@
     </div>
     
     <div class="search-box">
-      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث عن منتج (مثال: iPhone 15, TV)..." />
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث عن منتج..." />
       <button id="searchBtn" data-i18n="searchBtn">بحث</button>
     </div>
 
@@ -26,16 +26,31 @@
   </header>
 
   <main class="container">
-    <aside class="filters">
-      <h3 data-i18n="supportedStores">المتاجر المدعومة</h3>
-      <ul id="storeFilters">
-        <li><label><input type="checkbox" value="Amazon.sa" checked /> Amazon.sa</label></li>
-        <li><label><input type="checkbox" value="Noon" checked /> Noon</label></li>
-        <li><label><input type="checkbox" value="Jarir" checked /> Jarir Bookstore</label></li>
-        <li><label><input type="checkbox" value="Extra" checked /> Extra Stores</label></li>
-        <li><label><input type="checkbox" value="Panda" checked /> Hyper Panda</label></li>
-        <li><label><input type="checkbox" value="Carrefour" checked /> Carrefour KSA</label></li>
-      </ul>
+    <aside class="sidebar">
+      <!-- Category Filter -->
+      <div class="filter-group">
+        <h3 data-i18n="categoriesTitle">الفئات</h3>
+        <ul id="categoryFilters">
+          <li><label><input type="radio" name="category" value="all" checked /> <span data-i18n="catAll">الكل</span></label></li>
+          <li><label><input type="radio" name="category" value="smartphones" /> <span data-i18n="catSmartphones">هواتف ذكية</span></label></li>
+          <li><label><input type="radio" name="category" value="pcs" /> <span data-i18n="catPCs">كمبيوتر ولابتوب</span></label></li>
+          <li><label><input type="radio" name="category" value="tablets" /> <span data-i18n="catTablets">أجهزة لوحية</span></label></li>
+          <li><label><input type="radio" name="category" value="watches" /> <span data-i18n="catWatches">ساعات ذكية</span></label></li>
+        </ul>
+      </div>
+
+      <!-- Store Filter -->
+      <div class="filter-group">
+        <h3 data-i18n="supportedStores">المتاجر المدعومة</h3>
+        <ul id="storeFilters">
+          <li><label><input type="checkbox" value="Amazon.sa" checked /> Amazon.sa</label></li>
+          <li><label><input type="checkbox" value="Noon" checked /> Noon</label></li>
+          <li><label><input type="checkbox" value="Jarir" checked /> Jarir Bookstore</label></li>
+          <li><label><input type="checkbox" value="Extra" checked /> Extra Stores</label></li>
+          <li><label><input type="checkbox" value="Panda" checked /> Hyper Panda</label></li>
+          <li><label><input type="checkbox" value="Carrefour" checked /> Carrefour KSA</label></li>
+        </ul>
+      </div>
     </aside>
 
     <section class="results-section">
