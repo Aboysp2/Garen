@@ -25,7 +25,10 @@ body {
   direction: rtl;
 }
 
-/* Header */
+body.ltr {
+  direction: ltr;
+}
+
 .navbar {
   background: var(--card-bg);
   padding: 1rem 2rem;
@@ -36,6 +39,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .logo h1 {
@@ -65,7 +70,7 @@ body {
   outline: none;
 }
 
-.search-box button {
+.search-box button, .lang-btn {
   background: var(--primary);
   color: white;
   border: none;
@@ -76,11 +81,21 @@ body {
   transition: 0.2s;
 }
 
-.search-box button:hover {
+.search-box button:hover, .lang-btn:hover {
   background: var(--primary-hover);
 }
 
-/* Main Layout */
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.lang-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
 .container {
   display: flex;
   padding: 2rem;
@@ -119,7 +134,17 @@ body {
   gap: 0.5rem;
 }
 
-/* Product Cards */
+.results-section {
+  flex: 1;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -133,12 +158,11 @@ body {
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
 .product-card img {
@@ -189,7 +213,13 @@ body {
   display: block;
 }
 
-/* Responsive UI */
+.no-results {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem;
+  width: 100%;
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
