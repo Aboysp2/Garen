@@ -14,15 +14,20 @@
     <div class="logo">
       <h1>قارن <span>Garen</span></h1>
     </div>
+    
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="ابحث عن منتج (مثال: iPhone 15, TV, Coffee)..." />
-      <button id="searchBtn">بحث</button>
+      <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="ابحث عن منتج (مثال: iPhone 15, TV)..." />
+      <button id="searchBtn" data-i18n="searchBtn">بحث</button>
+    </div>
+
+    <div class="header-actions">
+      <button id="langToggleBtn" class="lang-btn">English</button>
     </div>
   </header>
 
   <main class="container">
     <aside class="filters">
-      <h3>المتاجر المدعومة (Stores)</h3>
+      <h3 data-i18n="supportedStores">المتاجر المدعومة</h3>
       <ul id="storeFilters">
         <li><label><input type="checkbox" value="Amazon.sa" checked /> Amazon.sa</label></li>
         <li><label><input type="checkbox" value="Noon" checked /> Noon</label></li>
@@ -35,8 +40,8 @@
 
     <section class="results-section">
       <div class="section-header">
-        <h2>نتائج المقارنة (Comparison Results)</h2>
-        <span id="resultsCount">6 منتجات متوفرة</span>
+        <h2 data-i18n="resultsTitle">نتائج المقارنة</h2>
+        <span id="resultsCount"></span>
       </div>
       <div id="productsGrid" class="products-grid"></div>
     </section>
@@ -46,7 +51,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js')
-        .then(() => console.log('PWA Service Worker Registered'))
+        .then(() => console.log('Service Worker Registered'))
         .catch((err) => console.error('SW Registration Failed:', err));
     }
   </script>
